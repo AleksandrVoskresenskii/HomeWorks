@@ -61,3 +61,86 @@ bool isHaveKey(int key, NodeTree* root) {
     }
 }
 
+char* getValueKey(int key, NodeTree* root) {
+    if (root->key == key) {
+        return root->value;
+    } else if ((root->key > key) && (root->left != NULL)) {
+        return isHaveKey(key, root->left);
+    } else if ((root->key < key) && (root->right != NULL)) {
+        return isHaveKey(key, root->right);
+    } else {
+        return NULL;
+    }
+}
+
+NodeTree* searchFatherMinChild(NodeTree* root) {
+    if ((*root).left == NULL) {
+        // Возвращаем NULL, если элемент и так минимальный
+        return NULL;
+    }
+    if (root->left->left = NULL) {
+        // Если следуюший - корень минимального, возвращаем указатель на него
+        return root->left;
+    } else {
+        // проходим дальше по рекурсии
+        return searchFatherMinChild(root->left);
+    }
+}
+
+NodeTree* delateElement(int key, NodeTree* root) {
+    if (!isHaveKey(key, root)) {
+        return root;
+    }
+
+    // если элемент единственный
+    if ((root->right == NULL) && (root->left == NULL)) {
+        free(root->value);
+        free(root);
+        return NULL;
+    }
+
+    // Если удаляемый элемент - лист
+    if ((root->right->key == key) && (root->right->left == NULL) && (root->right->right == NULL)){
+        // Если лист справа
+        free(root->right->value);
+        free(root->right);
+        root->right = NULL;
+        return root;
+    } else if ((root->left->key == key) && (root->left->left == NULL) && (root->left->right == NULL)){
+        // Если лист слева
+        free(root->left->value);
+        free(root->left);
+        root->left = NULL;
+        return root;
+    }
+
+    if ((root->key == key) && (searchFatherMinChild(root->right) != NULL)) {
+        free(root->value);
+        void* left = root->left;
+        // копирую минимального правого в root
+        *root = *(searchFatherMinChild(root->right)->left);
+        root->left = left;
+        // Удаляю минимального правого
+        free(searchFatherMinChild(root->right)->left);
+        searchFatherMinChild(root->right)->left = NULL;
+        return root;
+    } else if ((root->key == key) && (root->right != NULL)) {
+        // Если правый минимальный
+        free(root->value);
+        void* left = root->left;
+        *root = *(root->right);
+        root->left = left;
+        free(root->right);
+        return root;
+    } else if ((root->key == key) && (root->left != NULL)) {
+        // Если правого нет
+        free(root->value);
+        *root = *(root->left);
+        return root;
+    } else if (root->key > key) {
+        return delateElement(key, root->left);
+    } else if (root->key < key) {
+        return delateElement(key, root->right);
+    }
+
+}
