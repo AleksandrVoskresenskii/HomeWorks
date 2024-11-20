@@ -23,10 +23,10 @@ bool isHaveKey(int key, NodeTree* root);
 // Возвращает указатель на значение по ключу key из дерева root или NULL, если ключа нет в дереве
 char* getValueKey(int key, NodeTree* root);
 
-// Ищет минимальный элемент в дереве, если это коркнь, возвращает NULL
+// Ищет отца минимального элемента в дереве, если это коркнь, возвращает NULL
 NodeTree* searchFatherMinChild(NodeTree* root);
 
 // Удаляет элемент по ключу key из дерева root
-NodeTree* delateElement(int key, NodeTree* root);
+NodeTree* deleteElement(int key, NodeTree* root);
 
 #endif

@@ -87,7 +87,7 @@ NodeTree* searchFatherMinChild(NodeTree* root) {
     }
 }
 
-NodeTree* delateElement(int key, NodeTree* root) {
+NodeTree* deleteElement(int key, NodeTree* root) {
     if (!isHaveKey(key, root)) {
         return root;
     }
@@ -138,9 +138,9 @@ NodeTree* delateElement(int key, NodeTree* root) {
         *root = *(root->left);
         return root;
     } else if (root->key > key) {
-        return delateElement(key, root->left);
+        return deleteElement(key, root->left);
     } else if (root->key < key) {
-        return delateElement(key, root->right);
+        return deleteElement(key, root->right);
     }
 
 }
