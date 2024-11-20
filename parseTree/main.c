@@ -17,5 +17,7 @@ int main() {
     printf("\n");
     printf("%d\n", resultTree(root));
 
+    freeTree(root);
+
     return 0;
 }
