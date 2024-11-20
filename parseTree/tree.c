@@ -95,3 +95,16 @@ int resultTree(NodeTree* root)  {
             exit(1);
     }
 }
+
+void freeTree(NodeTree* root) {
+    if ((root->left == NULL) && (root->right == NULL)) {
+        free(root);
+        return;
+    }
+    if (root->left != NULL) {
+        freeTree(root->left);
+    }
+    if (root->right != NULL) {
+        freeTree(root->right);
+    }
+}
