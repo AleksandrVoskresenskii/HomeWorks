@@ -29,4 +29,7 @@ NodeTree* searchFatherMinChild(NodeTree* root);
 // Удаляет элемент по ключу key из дерева root
 NodeTree* deleteElement(int key, NodeTree* root);
 
+// Удаляет дерево
+void freeTree(NodeTree* root);
+
 #endif

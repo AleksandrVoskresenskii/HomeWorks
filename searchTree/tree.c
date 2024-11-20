@@ -73,77 +73,97 @@ char* getValueKey(int key, NodeTree* root) {
     }
 }
 
+// NodeTree* searchFatherMinChild(NodeTree* root) {
+//     if ((*root).left == NULL) {
+//         // Возвращаем NULL, если элемент и так минимальный
+//         return NULL;
+//     }
+//     if (root->left->left == NULL) {
+//         // Если следуюший - корень минимального, возвращаем указатель на него
+//         return root->left;
+//     } else {
+//         // проходим дальше по рекурсии
+//         return searchFatherMinChild(root->left);
+//     }
+// }
+
 NodeTree* searchFatherMinChild(NodeTree* root) {
-    if ((*root).left == NULL) {
-        // Возвращаем NULL, если элемент и так минимальный
+    if (root == NULL || root->left == NULL) {
         return NULL;
     }
+
     if (root->left->left == NULL) {
-        // Если следуюший - корень минимального, возвращаем указатель на него
-        return root->left;
+        // Возвращаем родителя минимального элемента
+        return root;
     } else {
-        // проходим дальше по рекурсии
         return searchFatherMinChild(root->left);
     }
 }
 
 NodeTree* deleteElement(int key, NodeTree* root) {
-    if (!isHaveKey(key, root)) {
-        return root;
-    }
-
-    // если элемент единственный
-    if ((root->right == NULL) && (root->left == NULL)) {
-        free(root->value);
-        free(root);
+    if (root == NULL) {
         return NULL;
     }
 
-    // Если удаляемый элемент - лист
-    if ((root->right->key == key) && (root->right->left == NULL) && (root->right->right == NULL)){
-        // Если лист справа
-        free(root->right->value);
-        free(root->right);
-        root->right = NULL;
-        return root;
-    } else if ((root->left->key == key) && (root->left->left == NULL) && (root->left->right == NULL)){
-        // Если лист слева
-        free(root->left->value);
-        free(root->left);
-        root->left = NULL;
-        return root;
-    }
-
-    if ((root->key == key) && (searchFatherMinChild(root->right) != NULL)) {
-        free(root->value);
-        void* left = root->left;
-        // копирую минимального правого в root
-        *root = *(searchFatherMinChild(root->right)->left);
-        root->left = left;
-        // Удаляю минимального правого
-        free(searchFatherMinChild(root->right)->left);
-        searchFatherMinChild(root->right)->left = NULL;
-        return root;
-    } else if ((root->key == key) && (root->right != NULL)) {
-        // Если правый минимальный
-        free(root->value);
-        void* left = root->left;
-        *root = *(root->right);
-        root->left = left;
-        free(root->right);
-        return root;
-    } else if ((root->key == key) && (root->left != NULL)) {
-        // Если правого нет
-        free(root->value);
-        *root = *(root->left);
-        return root;
-    } else if (root->key > key) {
+    if (key < root->key) {
         root->left = deleteElement(key, root->left);
-        return root;
-    } else if (root->key < key) {
+    } else if (key > root->key) {
         root->right = deleteElement(key, root->right);
-        return root;
+    } else {
+        if (root->left == NULL && root->right == NULL) {
+            // Удаляем лист
+            free(root->value);
+            free(root);
+            return NULL;
+        } else if (root->left == NULL) {
+            // Узел с одним потомком (правым)
+            NodeTree* temp = root->right;
+            free(root->value);
+            free(root);
+            return temp;
+        } else if (root->right == NULL) {
+            // Узел с одним потомком (левым)
+            NodeTree* temp = root->left;
+            free(root->value);
+            free(root);
+            return temp;
+        } else {
+            // Узел с двумя потомками
+            // Ищем минимальный элемент в правом поддереве
+            NodeTree* parentMin = searchFatherMinChild(root->right);
+            NodeTree* minNode = (parentMin != NULL) ? parentMin->left : root->right;
+
+            // Переносим данные минимального элемента
+            free(root->value);
+            root->key = minNode->key;
+
+            // Переносим указатель на строку из минимального узла
+            root->value = minNode->value;
+            minNode->value = NULL;
+
+            // Удаляем минимальный элемент
+            if (parentMin) {
+                parentMin->left = deleteElement(minNode->key, parentMin->left);
+            } else {
+                root->right = deleteElement(minNode->key, root->right);
+            }
+        }
     }
 
     return root;
+}
+
+void freeTree(NodeTree* root) {
+    if (root == NULL) {
+        return;
+    }
+
+    freeTree(root->left);
+    freeTree(root->right);
+
+    if (root->value != NULL) {
+        free(root->value);
+    }
+
+    free(root);
 }

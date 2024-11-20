@@ -64,6 +64,7 @@ int main() {
             printf("Ключ %d удален\n", key);
 
         } else if (command == 5) {
+            freeTree(tree);
             printf("Завершение работы программы\n");
             break;
 
