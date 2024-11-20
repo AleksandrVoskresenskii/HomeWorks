@@ -15,6 +15,7 @@ int main() {
 
     printTree(root);
     printf("\n");
+    printf("%d\n", resultTree(root));
 
     return 0;
 }

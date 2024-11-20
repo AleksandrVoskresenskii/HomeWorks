@@ -15,7 +15,7 @@ NodeTree* parseExpression(FILE* file);
 void printTree(NodeTree* root);
 
 // Функция вычисления значения дерева
-int evaluateTree(NodeTree* root);
+int resultTree(NodeTree* root);
 
 // Очистка памяти дерева
 void freeTree(NodeTree* root);

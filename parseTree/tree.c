@@ -71,3 +71,27 @@ void printTree(NodeTree* root) {
     }
     return;
 }
+
+int resultTree(NodeTree* root)  {
+    if (root->op == '\0') {
+        return root->value;
+    }
+
+    int leftValue = resultTree(root->left);
+    int rightValue = resultTree(root->right);
+
+    switch (root->op) {
+        case '+': return leftValue + rightValue;
+        case '-': return leftValue - rightValue;
+        case '*': return leftValue * rightValue;
+        case '/':
+            if (rightValue == 0) {
+                printf("Error: Division by zero\n");
+                exit(1);
+            }
+            return leftValue / rightValue;
+        default:
+            printf("Error: Unknown operator '%c'\n", root->op);
+            exit(1);
+    }
+}
