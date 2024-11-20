@@ -16,4 +16,7 @@ NodeTree* createTree(void);
 // Добавляет узел по значению ключа key в дерево root
 NodeTree* addElement(char* value, int key, NodeTree* root);
 
+// Проверяет наличие узла с ключем key в дереве root
+bool isHaveKey(int key, NodeTree* root);
+
 #endif

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include "tree.h"
 
@@ -28,7 +29,7 @@ NodeTree* createTree(void) {
     return root;
 }
 
-NodeTree* addElement(char value, int key, NodeTree* root) {
+NodeTree* addElement(char* value, int key, NodeTree* root) {
     if (root == NULL) {
         return createNode(value, key);
     }
@@ -46,5 +47,17 @@ NodeTree* addElement(char value, int key, NodeTree* root) {
     }
 
     return root;
+}
+
+bool isHaveKey(int key, NodeTree* root) {
+    if (root->key == key) {
+        return true;
+    } else if ((root->key > key) && (root->left != NULL)) {
+        return isHaveKey(key, root->left);
+    } else if ((root->key < key) && (root->right != NULL)) {
+        return isHaveKey(key, root->right);
+    } else {
+        return false;
+    }
 }
 
