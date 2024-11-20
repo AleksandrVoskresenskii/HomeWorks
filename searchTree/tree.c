@@ -65,9 +65,9 @@ char* getValueKey(int key, NodeTree* root) {
     if (root->key == key) {
         return root->value;
     } else if ((root->key > key) && (root->left != NULL)) {
-        return isHaveKey(key, root->left);
+        return getValueKey(key, root->left);
     } else if ((root->key < key) && (root->right != NULL)) {
-        return isHaveKey(key, root->right);
+        return getValueKey(key, root->right);
     } else {
         return NULL;
     }
@@ -78,7 +78,7 @@ NodeTree* searchFatherMinChild(NodeTree* root) {
         // Возвращаем NULL, если элемент и так минимальный
         return NULL;
     }
-    if (root->left->left = NULL) {
+    if (root->left->left == NULL) {
         // Если следуюший - корень минимального, возвращаем указатель на него
         return root->left;
     } else {
@@ -138,9 +138,12 @@ NodeTree* deleteElement(int key, NodeTree* root) {
         *root = *(root->left);
         return root;
     } else if (root->key > key) {
-        return deleteElement(key, root->left);
+        root->left = deleteElement(key, root->left);
+        return root;
     } else if (root->key < key) {
-        return deleteElement(key, root->right);
+        root->right = deleteElement(key, root->right);
+        return root;
     }
 
+    return root;
 }
