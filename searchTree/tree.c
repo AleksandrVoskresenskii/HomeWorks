@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "tree.h"
 
@@ -10,10 +11,12 @@ typedef struct NodeTree {
     struct NodeTree* right;
 } NodeTree;
 
-NodeTree* createNode(char value, int key) {
+NodeTree* createNode(char* value, int key) {
     NodeTree* node = (NodeTree*)malloc(sizeof(NodeTree));
+    char* str = (char*)malloc(strlen(value) + 1);
+    strcpy(str, value);
     node->key = key;
-    node->value = value;
+    node->value = str;
     node->left = NULL;
     node->right = NULL;
     return node;
@@ -36,8 +39,12 @@ NodeTree* addElement(char value, int key, NodeTree* root) {
         root->right = addElement(value, key, root->right);
     } else {
         // Если ключ совпадает
-        (*root).value = value;
+        free(root->value);
+        char* str = (char*)malloc(strlen(value) + 1);
+        strcpy(str, value);
+        root->value = str;
     }
 
     return root;
 }
+
