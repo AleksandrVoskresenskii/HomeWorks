@@ -107,4 +107,5 @@ void freeTree(NodeTree* root) {
     if (root->right != NULL) {
         freeTree(root->right);
     }
+    free(root);
 }
