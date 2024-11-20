@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+
 #include "tree.h"
 
 typedef struct NodeTree {
@@ -37,7 +41,7 @@ NodeTree* parseExpression(FILE* file) {
         ch = fgetc(file);
         if (ch != ')') {
             printf("Error: Expected ')'\n");
-            exit;
+            exit(1);
         }
 
         return node;
@@ -47,12 +51,23 @@ NodeTree* parseExpression(FILE* file) {
         int value;
         if (fscanf(file, "%d", &value) != 1) {
             printf("Error: Expected number\n");
-            exit;
+            exit(1);
         }
         return createNode('\0', value);
     }
 }
 
 void printTree(NodeTree* root) {
-
+    if (root->op != '\0') {
+        printf("%c ", root->op);
+    } else {
+        printf("%d ", root->value);
+    }
+    if (root->left != NULL) {
+        printTree(root->left);
+    }
+    if (root->right != NULL) {
+        printTree(root->right);
+    }
+    return;
 }
