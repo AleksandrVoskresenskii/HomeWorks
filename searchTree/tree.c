@@ -18,3 +18,26 @@ NodeTree* createNode(char value, int key) {
     node->right = NULL;
     return node;
 }
+
+NodeTree* createTree(void) {
+    NodeTree* root = malloc(sizeof(NodeTree*));
+    root = NULL;
+    return root;
+}
+
+NodeTree* addElement(char value, int key, NodeTree* root) {
+    if (root == NULL) {
+        return createNode(value, key);
+    }
+
+    if (key < root->key) {
+        root->left = addElement(value, key, root->left);
+    } else if (key > root->key) {
+        root->right = addElement(value, key, root->right);
+    } else {
+        // Если ключ совпадает
+        (*root).value = value;
+    }
+
+    return root;
+}
