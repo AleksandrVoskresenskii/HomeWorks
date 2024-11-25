@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "tree.h"
 
 typedef struct NodeTree {
 
@@ -94,8 +95,8 @@ NodeTree *rightRotate(NodeTree *root) {
 }
 
 NodeTree *leftRotate(NodeTree *root) {
-    void *rightSubtree = root->right;
-    void *rightLeftSudtree = root->right->left;
+    NodeTree *rightSubtree = root->right;
+    NodeTree *rightLeftSudtree = root->right->left;
 
     if (root->father == NULL) {
         // Если это корень всего дерева
@@ -154,6 +155,8 @@ NodeTree* addElement(char* value, int key, NodeTree* root) {
         return root;
     }
 
+    root->height = newHeit(root);
+
     // Балансировка
     int leftHeight = 0;
     int rightHeight = 0;
@@ -170,19 +173,23 @@ NodeTree* addElement(char* value, int key, NodeTree* root) {
         rightHeight = root->right->height;
     }
 
-    int balance = rightHeight - rightHeight;
+    int balance = leftHeight - rightHeight;
 
-    if ((balance > 1) && (root->left->right->height > root->left->left->height)) {
-        leftRotate(root->left);
-        root = rightRotate(root);
-    } else if ((balance < -1) && (root->right->left->height > root->right->right->height)) {
-        rightRotate(root->right);
-        root = leftRotate(root);
-    } else if ((balance < -1) && (rotate == 1)) {
-        root = leftRotate(root);
-    } else if ((balance > 1) && (rotate == -1)) {
-        root = rightRotate(root);
+    if (balance > 1) {
+    // Левый большой поворот
+    if (key > root->left->key) {
+        root->left = leftRotate(root->left);
     }
+    // Левый малый поворот
+    root = rightRotate(root);
+} else if (balance < -1) {
+    // Правый большой поворот
+    if (key < root->right->key) {
+        root->right = rightRotate(root->right);
+    }
+    // Правый малый поворот
+    root = leftRotate(root);
+}
 
     return root;
 }
