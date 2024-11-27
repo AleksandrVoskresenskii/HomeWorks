@@ -29,4 +29,13 @@ NodeTree *rightRotate(NodeTree *root);
 // Делает левый поворот АВЛ дерева
 NodeTree *leftRotate(NodeTree *root);
 
+// Балансирует узел дерева
+NodeTree* balanceTree(NodeTree* root, int key);
+
+// Поиск минимального элемента
+NodeTree* findMin(NodeTree* root);
+
+// Удаляет элемент по ключу key из дерева root
+NodeTree* deleteElement(int key, NodeTree* root);
+
 #endif

@@ -131,6 +131,43 @@ NodeTree *leftRotate(NodeTree *root) {
     return root;
 }
 
+NodeTree* balanceTree(NodeTree* root, int key) {
+    int leftHeight = 0;
+    int rightHeight = 0;
+
+    if (root->left == NULL) {
+        leftHeight = 0;
+    } else {
+        leftHeight = root->left->height;
+    }
+
+    if (root->right == NULL) {
+        rightHeight = 0;
+    } else {
+        rightHeight = root->right->height;
+    }
+
+    int balance = leftHeight - rightHeight;
+
+    if (balance > 1) {
+        // Левый большой поворот
+        if (key > root->left->key) {
+            root->left = leftRotate(root->left);
+        }
+        // Левый малый поворот
+        root = rightRotate(root);
+    } else if (balance < -1) {
+        // Правый большой поворот
+        if (key < root->right->key) {
+            root->right = rightRotate(root->right);
+        }
+        // Правый малый поворот
+        root = leftRotate(root);
+    }
+
+    return root;
+}
+
 NodeTree* addElement(char* value, int key, NodeTree* root) {
     if (root == NULL) {
         return createNode(value, key, root);
@@ -158,39 +195,68 @@ NodeTree* addElement(char* value, int key, NodeTree* root) {
     root->height = newHeit(root);
 
     // Балансировка
-    int leftHeight = 0;
-    int rightHeight = 0;
-
-    if (root->left == NULL) {
-        leftHeight = 0;
-    } else {
-        leftHeight = root->left->height;
-    }
-
-    if (root->right == NULL) {
-        rightHeight = 0;
-    } else {
-        rightHeight = root->right->height;
-    }
-
-    int balance = leftHeight - rightHeight;
-
-    if (balance > 1) {
-    // Левый большой поворот
-    if (key > root->left->key) {
-        root->left = leftRotate(root->left);
-    }
-    // Левый малый поворот
-    root = rightRotate(root);
-} else if (balance < -1) {
-    // Правый большой поворот
-    if (key < root->right->key) {
-        root->right = rightRotate(root->right);
-    }
-    // Правый малый поворот
-    root = leftRotate(root);
-}
+    root = balanceTree(root, key);
 
     return root;
 }
 
+NodeTree* findMin(NodeTree* root) {
+    while (root->left != NULL) {
+        root = root->left;
+    }
+    return root;
+}
+
+NodeTree* deleteElement(int key, NodeTree* root) {
+    if (root == NULL) {
+        return NULL;
+    }
+
+    // Ищем узел
+    if (key < root->key) {
+        root->left = deleteElement(key, root->left);
+    } else if (key > root->key) {
+        root->right = deleteElement(key, root->right);
+    } else {
+        // Узел найден
+        if (root->left == NULL && root->right == NULL) {
+            // Удаляем лист
+            free(root->value);
+            free(root);
+            return NULL;
+        } else if (root->left == NULL) {
+            // Один потомок (правый)
+            NodeTree* temp = root->right;
+            temp->father = root->father;
+            free(root->value);
+            free(root);
+            return temp;
+        } else if (root->right == NULL) {
+            // Один потомок (левый)
+            NodeTree* temp = root->left;
+            temp->father = root->father;
+            free(root->value);
+            free(root);
+            return temp;
+        } else {
+            // Два потомка
+            NodeTree* minNode = findMin(root->right);
+            root->key = minNode->key;
+
+            free(root->value);
+
+            root->value = minNode->value;
+            minNode->value = NULL;
+
+            root->right = deleteElement(minNode->key, root->right);
+        }
+    }
+
+    // Обновляем высоту текущего узла
+    root->height = newHeit(root);
+
+    // Балансировка
+    root = balanceTree(root, key);
+
+    return root;
+}

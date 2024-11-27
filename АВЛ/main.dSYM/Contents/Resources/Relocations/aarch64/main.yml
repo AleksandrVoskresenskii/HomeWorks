@@ -2,14 +2,17 @@
 triple:          'arm64-apple-darwin'
 binary-path:     main
 relocations:
-  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _max, symObjAddr: 0x0, symBinAddr: 0x100003694, symSize: 0x48 }
-  - { offsetInCU: 0xAD, offset: 0xAD, size: 0x8, addend: 0x0, symName: _max, symObjAddr: 0x0, symBinAddr: 0x100003694, symSize: 0x48 }
-  - { offsetInCU: 0xE3, offset: 0xE3, size: 0x8, addend: 0x0, symName: _createTree, symObjAddr: 0x48, symBinAddr: 0x1000036DC, symSize: 0x2C }
-  - { offsetInCU: 0x10B, offset: 0x10B, size: 0x8, addend: 0x0, symName: _createNode, symObjAddr: 0x74, symBinAddr: 0x100003708, symSize: 0x98 }
-  - { offsetInCU: 0x16B, offset: 0x16B, size: 0x8, addend: 0x0, symName: _newHeit, symObjAddr: 0x10C, symBinAddr: 0x1000037A0, symSize: 0xE4 }
-  - { offsetInCU: 0x193, offset: 0x193, size: 0x8, addend: 0x0, symName: _rightRotate, symObjAddr: 0x1F0, symBinAddr: 0x100003884, symSize: 0x1BC }
-  - { offsetInCU: 0x1D7, offset: 0x1D7, size: 0x8, addend: 0x0, symName: _leftRotate, symObjAddr: 0x3AC, symBinAddr: 0x100003A40, symSize: 0x1BC }
-  - { offsetInCU: 0x21B, offset: 0x21B, size: 0x8, addend: 0x0, symName: _addElement, symObjAddr: 0x568, symBinAddr: 0x100003BFC, symSize: 0x2A4 }
-  - { offsetInCU: 0x26, offset: 0x2E9, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100003EA0, symSize: 0xC4 }
-  - { offsetInCU: 0x41, offset: 0x304, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100003EA0, symSize: 0xC4 }
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _max, symObjAddr: 0x0, symBinAddr: 0x1000033D4, symSize: 0x48 }
+  - { offsetInCU: 0xAD, offset: 0xAD, size: 0x8, addend: 0x0, symName: _max, symObjAddr: 0x0, symBinAddr: 0x1000033D4, symSize: 0x48 }
+  - { offsetInCU: 0xE3, offset: 0xE3, size: 0x8, addend: 0x0, symName: _createTree, symObjAddr: 0x48, symBinAddr: 0x10000341C, symSize: 0x2C }
+  - { offsetInCU: 0x10B, offset: 0x10B, size: 0x8, addend: 0x0, symName: _createNode, symObjAddr: 0x74, symBinAddr: 0x100003448, symSize: 0x98 }
+  - { offsetInCU: 0x16B, offset: 0x16B, size: 0x8, addend: 0x0, symName: _newHeit, symObjAddr: 0x10C, symBinAddr: 0x1000034E0, symSize: 0xE4 }
+  - { offsetInCU: 0x193, offset: 0x193, size: 0x8, addend: 0x0, symName: _rightRotate, symObjAddr: 0x1F0, symBinAddr: 0x1000035C4, symSize: 0x1BC }
+  - { offsetInCU: 0x1D7, offset: 0x1D7, size: 0x8, addend: 0x0, symName: _leftRotate, symObjAddr: 0x3AC, symBinAddr: 0x100003780, symSize: 0x1BC }
+  - { offsetInCU: 0x21B, offset: 0x21B, size: 0x8, addend: 0x0, symName: _balanceTree, symObjAddr: 0x568, symBinAddr: 0x10000393C, symSize: 0x160 }
+  - { offsetInCU: 0x27B, offset: 0x27B, size: 0x8, addend: 0x0, symName: _addElement, symObjAddr: 0x6C8, symBinAddr: 0x100003A9C, symSize: 0x178 }
+  - { offsetInCU: 0x2E9, offset: 0x2E9, size: 0x8, addend: 0x0, symName: _findMin, symObjAddr: 0x840, symBinAddr: 0x100003C14, symSize: 0x40 }
+  - { offsetInCU: 0x311, offset: 0x311, size: 0x8, addend: 0x0, symName: _deleteElement, symObjAddr: 0x880, symBinAddr: 0x100003C54, symSize: 0x244 }
+  - { offsetInCU: 0x26, offset: 0x3D1, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100003E98, symSize: 0xC4 }
+  - { offsetInCU: 0x41, offset: 0x3EC, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100003E98, symSize: 0xC4 }
 ...
