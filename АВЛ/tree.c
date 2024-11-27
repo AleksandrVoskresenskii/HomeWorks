@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include "tree.h"
 
@@ -259,4 +260,43 @@ NodeTree* deleteElement(int key, NodeTree* root) {
     root = balanceTree(root, key);
 
     return root;
+}
+
+bool isHaveKey(int key, NodeTree* root) {
+    if (root->key == key) {
+        return true;
+    } else if ((root->key > key) && (root->left != NULL)) {
+        return isHaveKey(key, root->left);
+    } else if ((root->key < key) && (root->right != NULL)) {
+        return isHaveKey(key, root->right);
+    } else {
+        return false;
+    }
+}
+
+char* getValueKey(int key, NodeTree* root) {
+    if (root->key == key) {
+        return root->value;
+    } else if ((root->key > key) && (root->left != NULL)) {
+        return getValueKey(key, root->left);
+    } else if ((root->key < key) && (root->right != NULL)) {
+        return getValueKey(key, root->right);
+    } else {
+        return NULL;
+    }
+}
+
+void freeTree(NodeTree* root) {
+    if (root == NULL) {
+        return;
+    }
+
+    freeTree(root->left);
+    freeTree(root->right);
+
+    if (root->value != NULL) {
+        free(root->value);
+    }
+
+    free(root);
 }
