@@ -1,65 +1,62 @@
+#include "list.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "list.h"
 
-typedef struct Node {
-    char* key;
-    int value;
-    struct Node* next;
-} Node;
+static void resizeList(List* list) {
+    int newCapacity = (list->capacity == 0) ? 2 : list->capacity * 2;
+    ListItem* newItems = (ListItem*)malloc(sizeof(ListItem) * newCapacity);
 
-typedef struct List {
-    Node* head;
-} List;
+    for (int i = 0; i < list->size; i++) {
+        newItems[i] = list->items[i];
+    }
 
-List* createList() {
+    free(list->items);
+    list->items = newItems;
+    list->capacity = newCapacity;
+}
+
+List* createList(int initialCapacity) {
     List* list = (List*)malloc(sizeof(List));
-    list->head = NULL;
+    list->size = 0;
+    list->capacity = (initialCapacity > 0) ? initialCapacity : 2;
+    list->items = (ListItem*)malloc(sizeof(ListItem) * list->capacity);
     return list;
 }
 
-void addToList(List* list, const char* key) {
-    Node* node = findInList(list, key);
-    if (node) {
-        node->value++;
-    } else {
-        Node* newNode = (Node*)malloc(sizeof(Node));
-        newNode->key = strdup(key);
-        newNode->value = 1;
-        newNode->next = list->head;
-        list->head = newNode;
-    }
-}
-
-Node* findInList(List* list, const char* key) {
-    Node* current = list->head;
-    while (current) {
-        if (strcmp(current->key, key) == 0) {
-            return current;
+ListItem* findInList(List* list, const char* key) {
+    for (int i = 0; i < list->size; i++) {
+        if (strcmp(list->items[i].key, key) == 0) {
+            return &list->items[i];
         }
-        current = current->next;
     }
     return NULL;
 }
 
-int getListLength(List* list) {
-    int length = 0;
-    Node* current = list->head;
-    while (current) {
-        length++;
-        current = current->next;
+void addToList(List* list, const char* key, int freq) {
+    ListItem* item = findInList(list, key);
+    if (item) {
+        item->value += freq;
+        return;
     }
-    return length;
+
+    if (list->size == list->capacity) {
+        resizeList(list);
+    }
+
+    list->items[list->size].key = strdup(key);
+    list->items[list->size].value = freq;
+    list->size++;
+}
+
+int getListLength(List* list) {
+    return list->size;
 }
 
 void freeList(List* list) {
-    Node* current = list->head;
-    while (current) {
-        Node* temp = current;
-        free(current->key);
-        current = current->next;
-        free(temp);
+    for (int i = 0; i < list->size; i++) {
+        free(list->items[i].key);
     }
+    free(list->items);
     free(list);
 }
