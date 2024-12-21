@@ -45,10 +45,10 @@ int main(void) {
     printf("5 / 2 = %d\n", division(a,b));     //  2
     a = 5;
     b = -2;
-    printf("5 / -2 = %d\n", division(a,b));    // -2
+    printf("5 / -2 = %d\n", division(a,b));    // -3
     a = -5;
     b = 2;
-    printf("-5 / 2 = %d\n", division(a,b));    // -2
+    printf("-5 / 2 = %d\n", division(a,b));    // -3
     a = -5;
     b = -2;
     printf("-5 / -2 = %d\n", division(a,b));   //  2
