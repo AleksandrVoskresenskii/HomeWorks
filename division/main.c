@@ -24,8 +24,12 @@ int division(int a, int b) {
 
     // Прибавляем b пока sum <= a
     while (sum + b <= a) {
-        sum = sum + b;
-        divResult = divResult + 1;
+        sum += b;
+        divResult += 1;
+    }
+
+    if (divResult != a && sign == -1) {
+        divResult += 1;
     }
 
     divResult *= sign;
